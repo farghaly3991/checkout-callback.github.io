@@ -32,8 +32,8 @@
         <div class="py-6">
             <h1 class="font-bold text-4xl" :class="{'text-green-500': success, 'text-red-500': !success}">{{ message }}</h1>
         </div>
-        <div>
-            <div v-if="success">
+        <div v-if="success">
+            <div>
                 <h4 class="font-bold text-lg text-gray-500">Your code is</h4>
                 <h1 class="font-bold text-3xl lg:text-5xl text-gray-900">{{ code }}</h1>
             </div>
@@ -60,7 +60,7 @@
         new Vue({
             el: '#app',
             data: {
-                query: getQueryParams(),
+                query: "",
                 success: true
             },
             computed: {
@@ -72,6 +72,8 @@
                 }
             },
             mounted: function() {
+                this.query = getQueryParams();
+                console.log(this.query);
                 this.success = this.query.success == "true";
                 new QRCode(document.getElementById("qrcode"), this.code);
             }
