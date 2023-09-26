@@ -29,6 +29,10 @@
             </div>
 		</div>
 
+        <div v-if="!success">
+            <h2 class="text-4xl"Transaction Failed></h2>
+        </div>
+
         <div class="py-6">
             <h1 class="font-bold text-4xl" :class="{'text-green-500': success, 'text-red-500': !success}">{{ message }}</h1>
         </div>
@@ -61,20 +65,18 @@
             el: '#app',
             data: {
                 query: "",
-                success: true
+                success: true,
+                message: ""
             },
             computed: {
-                message: function() {
-                    return this.query.data && this.query['data.message'] ? this.query['data.message'] : '';
-                },
                 code: function() {
                     return this.query.merchant_order_id || '';
                 }
             },
             mounted: function() {
                 this.query = getQueryParams();
-                console.log(this.query);
                 this.success = this.query.success == "true";
+                this.message = this.query['data.message'];
                 new QRCode(document.getElementById("qrcode"), this.code);
             }
         });
