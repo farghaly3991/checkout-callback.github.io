@@ -33,11 +33,13 @@
             <h1 class="font-bold text-4xl" :class="{'text-green-500': success, 'text-red-500': !success}">{{ message }}</h1>
         </div>
         <div>
-            <h4 class="font-bold text-lg text-gray-500">Your code is</h4>
-            <h1 class="font-bold text-3xl lg:text-5xl text-gray-900">{{ code }}</h1>
-        </div>
-        <div class="mt-4">
-            <div id="qrcode"></div>
+            <div v-if="success">
+                <h4 class="font-bold text-lg text-gray-500">Your code is</h4>
+                <h1 class="font-bold text-3xl lg:text-5xl text-gray-900">{{ code }}</h1>
+            </div>
+            <div class="mt-4">
+                <div id="qrcode"></div>
+            </div>
         </div>
     </div>
 
@@ -63,14 +65,14 @@
             },
             computed: {
                 message: function() {
-                    return this.query.data && this.query.data.message ? this.query.data.message : '';
+                    return this.query.data && this.query['data.message'] ? this.query['data.message'] : '';
                 },
                 code: function() {
                     return this.query.merchant_order_id || '';
                 }
             },
             mounted: function() {
-                this.success = this.query.success;
+                this.success = this.query.success == "true";
                 new QRCode(document.getElementById("qrcode"), this.code);
             }
         });
